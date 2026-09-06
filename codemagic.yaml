@@ -1,0 +1,28 @@
+workflows:
+  sybro-android:
+    name: SYBRO Android APK
+    max_build_duration: 60
+
+    environment:
+      flutter: stable
+
+    scripts:
+      - name: Extract SYBRO project
+        script: |
+          rm -rf SYBRO
+          unzip -o SYBRO_buildable_android.zip
+          cd SYBRO
+          echo "SYBRO project extracted"
+
+      - name: Get Flutter packages
+        working_directory: SYBRO
+        script: |
+          flutter pub get
+
+      - name: Build SYBRO APK
+        working_directory: SYBRO
+        script: |
+          flutter build apk --debug
+
+    artifacts:
+      - SYBRO/build/app/outputs/flutter-apk/*.apk
