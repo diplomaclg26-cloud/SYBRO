@@ -1,0 +1,37 @@
+name: SYBRO Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract SYBRO project
+        run: |
+          unzip -o SYBRO_buildable_android.zip -d extracted
+          cd extracted
+          echo "Project extracted"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Get packages
+        working-directory: extracted/SYBRO
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: extracted/SYBRO
+        run: flutter build apk --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SYBRO-APK
+          path: extracted/SYBRO/build/app/outputs/flutter-apk/app-debug.apk
