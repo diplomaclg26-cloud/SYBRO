@@ -21,7 +21,7 @@ jobs:
         run: |
           rm -rf extracted
           mkdir extracted
-          unzip -o SYBRO_buildable_android.zip -d extracted
+          unzip -o SYBRO_new.zip -d extracted
 
       - name: Regenerate Android from current Flutter template
         working-directory: extracted/SYBRO
